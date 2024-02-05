@@ -1,26 +1,37 @@
-const Formatter = (function(){
-    const x = (message) => console.log(`Logger : ${message}`) ; 
-    let timerun = 0  ; 
-
+const GameBoard = (function() {
+    const board = new Array(9).fill(null);
     
-    const makeUpperCase = (text) =>
-    {
+    const getboard = () => board;
+    
+    const fillcell = (index, mark) => {
+        if (board[index] === null) {
+            board[index] = mark;
+            return true;
+        } else {
+            return false;
+        }
+    };
+    
+    const resetboard = () => {
+        
+        for(let i = 0 ;  i < board.length  ; ++i)
+        {
+            board[i] = null  ;
+        }
+    };
 
-        x("Making UpperCase "); 
-        settimer() ; 
-        return text.toUpperCase() ; 
-    } ; 
-    const settimer = () =>
-    {
-        x("setting times run") ; 
-        ++timerun ; 
-    }
-    return {makeUpperCase , settimer , timerun} ; 
-})() ; 
+    return {
+        getboard,
+        resetboard,
+        fillcell
+    };
+})();
 
 
+GameBoard.fillcell(5,"x") ;
 
-// console.log(Formatter.makeUpperCase("mrigl")) ; 
-// console.log(Formatter.settimer()) ; 
-console.log(Formatter.timerun) ;
+console.log(GameBoard.getboard()) ;
 
+
+GameBoard.resetboard() ; 
+console.log(GameBoard.getboard()) ; 
