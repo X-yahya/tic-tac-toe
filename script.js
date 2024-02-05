@@ -1,25 +1,12 @@
-function createUser(name)
-
+const calculator = (function() 
 {
-    const discordName = "@ "+ name  ; 
-    let rep = 0 ; 
-    const getReputation = () => rep ; 
-    const giveReputation = () => rep++ ; 
+    const add = (a,b) =>a+b ; 
+    const subs = (a,b) =>a-b ; 
+    const mult = (a,b) =>a*b; 
+    const div = (a,b) =>a/b ;
+    return{add, subs , mult , div} ; 
+})() ; 
 
-    return {name , discordName , getReputation , giveReputation} ; 
-}
 
-
-function createPlayer(name, level)
-{
-    const {getReputation , giveReputation} = createUser(name) ;
-    const increaseLevel=()=> ++level ; 
-    return{name,getReputation,giveReputation , increaseLevel}
-}
-player = createPlayer("yahya",5);
-
-player.giveReputation() ; 
-console.log(player.getReputation() ); 
-console.log(player.increaseLevel()) ; 
-console.log(player.increaseLevel()) ; 
-console.log(player.increaseLevel()) ; 
+console.log(calculator.div(7,5) );
+console.log(calculator.add(5,4)) ; 
