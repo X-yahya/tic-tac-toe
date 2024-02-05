@@ -10,11 +10,16 @@ function createUser(name)
 }
 
 
-const userx = createUser("x") ; 
+function createPlayer(name, level)
+{
+    const {getReputation , giveReputation} = createUser(name) ;
+    const increaseLevel=()=> ++level ; 
+    return{name,getReputation,giveReputation , increaseLevel}
+}
+player = createPlayer("yahya",5);
 
-userx.giveReputation() ; 
-
-console.log({
-    discordName : userx.discordName ,
-    reputation : userx.getReputation()
-})
+player.giveReputation() ; 
+console.log(player.getReputation() ); 
+console.log(player.increaseLevel()) ; 
+console.log(player.increaseLevel()) ; 
+console.log(player.increaseLevel()) ; 
