@@ -1,12 +1,26 @@
-const calculator = (function() 
-{
-    const add = (a,b) =>a+b ; 
-    const subs = (a,b) =>a-b ; 
-    const mult = (a,b) =>a*b; 
-    const div = (a,b) =>a/b ;
-    return{add, subs , mult , div} ; 
+const Formatter = (function(){
+    const x = (message) => console.log(`Logger : ${message}`) ; 
+    let timerun = 0  ; 
+
+    
+    const makeUpperCase = (text) =>
+    {
+
+        x("Making UpperCase "); 
+        settimer() ; 
+        return text.toUpperCase() ; 
+    } ; 
+    const settimer = () =>
+    {
+        x("setting times run") ; 
+        ++timerun ; 
+    }
+    return {makeUpperCase , settimer , timerun} ; 
 })() ; 
 
 
-console.log(calculator.div(7,5) );
-console.log(calculator.add(5,4)) ; 
+
+// console.log(Formatter.makeUpperCase("mrigl")) ; 
+// console.log(Formatter.settimer()) ; 
+console.log(Formatter.timerun) ;
+
