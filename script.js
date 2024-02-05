@@ -1,8 +1,20 @@
 function createUser(name)
+
 {
-    const discordName = "@ "+name  ;
-    return {name , discordName} ; 
+    const discordName = "@ "+ name  ; 
+    let rep = 0 ; 
+    const getReputation = () => rep ; 
+    const giveReputation = () => rep++ ; 
+
+    return {name , discordName , getReputation , giveReputation} ; 
 }
 
-console.log(createUser("yahya"));
 
+const userx = createUser("x") ; 
+
+userx.giveReputation() ; 
+
+console.log({
+    discordName : userx.discordName ,
+    reputation : userx.getReputation()
+})
