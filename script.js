@@ -1,7 +1,12 @@
 const player = function(name, marker) {
     return { name, marker, pattern: [] };
 }
+const play = function(player , GameBoard)
+{
 
+    
+
+}
 const GameBoard = (function() {
     const boardSize = 3;
     const board = new Array(boardSize ** 2).fill(null);
@@ -57,36 +62,11 @@ const GameBoard = (function() {
         checkDraw
     };
 })();
-const playerXName = prompt("Enter name for Player X:");
-const playerOName = prompt("Enter name for Player O:");
-const playerX = player(playerXName, "X");
-const playerO = player(playerOName, "O");
 
-function rn(lst)
-{
-    val = Math.floor(Math.random() * 10)
-    if(lst[val] === null)
-    {
-        return val ; 
-    }
-}
-GameBoard.playRound(playerX, rn(GameBoard.getboard()));
-GameBoard.playRound(playerO, rn(GameBoard.getboard()));
-GameBoard.playRound(playerX, rn(GameBoard.getboar()));
-GameBoard.playRound(playerO, rn(GameBoard.getboard()));
-GameBoard.playRound(playerX, rn(GameBoard.getboard()));
-GameBoard.playRound(playerO, rn(GameBoard.getboard()));
-GameBoard.playRound(playerX, rn(GameBoard.getboard()));
-GameBoard.playRound(playerO, rn(GameBoard.getboard()));
-GameBoard.playRound(playerX, rn(GameBoard.getboard()));
-console.log(playerX.pattern) ; 
-console.log(playerO.pattern) ; 
+const playerX = player("playerXName", "X");
+const playerO = player("playerOName", "O") ; 
+
+console.log(playerX.marker);
+console.log(playerO.marker) ; 
 console.log(GameBoard.getboard());
 
-if (GameBoard.checkWin(playerX)) {
-    console.log(`${playerX.name} wins!`);
-} else if (GameBoard.checkWin(playerO)) {
-    console.log(`${playerO.name} wins!`);
-} else if (GameBoard.checkDraw()) {
-    console.log("It's a draw!");
-}
