@@ -1,12 +1,7 @@
 const player = function(name, marker) {
     return { name, marker, pattern: [] };
 }
-const play = function(player , GameBoard)
-{
 
-    
-
-}
 const GameBoard = (function() {
     const boardSize = 3;
     const board = new Array(boardSize ** 2).fill(null);
@@ -64,9 +59,39 @@ const GameBoard = (function() {
 })();
 
 const playerX = player("playerXName", "X");
-const playerO = player("playerOName", "O") ; 
+const playerO = player("playerOName", "O");
 
-console.log(playerX.marker);
-console.log(playerO.marker) ; 
+
+
+function randomIndex()
+{
+    let indexs = [] ; 
+    let board = GameBoard.getboard() ; 
+    for(let i = 0 ; i < board.length ; ++i)
+    {
+        if (board[i]===null)
+        {
+            indexs.push(i) ; 
+        }
+    }
+    return  indexs[Math.floor(Math.random()*indexs.length)] ; 
+}
+let current_player = playerX;
+while (!GameBoard.checkWin(current_player) && !GameBoard.checkDraw()) {
+    let get_index = randomIndex();
+    GameBoard.playRound(current_player, get_index);
+    console.log(`Player ${current_player.name} marked cell ${get_index}`);
+    current_player = (current_player === playerX) ? playerO : playerX;
+}
+
+if (GameBoard.checkWin(playerX)) {
+    console.log("Player X wins!");
+} else if (GameBoard.checkWin(playerO)) {
+    console.log("Player O wins!");
+} else {
+    console.log("It's a draw!");
+}
+
+console.log("Final board:");
 console.log(GameBoard.getboard());
 
