@@ -67,19 +67,18 @@ const GameBoard = (function() {
     };
 })();
 
-const playerX = player("playerXName", "X");
-const playerO = player("playerOName", "O");
 
-function randomIndex() {
-    let indexs = [];
-    let board = GameBoard.getboard();
-    for (let i = 0; i < board.length; ++i) {
-        if (board[i] === null) {
-            indexs.push(i);
-        }
-    }
-    return indexs[Math.floor(Math.random() * indexs.length)];
-}
+//===================================================test func================================================================
+// function randomIndex() {
+//     let indexs = [];
+//     let board = GameBoard.getboard();
+//     for (let i = 0; i < board.length; ++i) {
+//         if (board[i] === null) {
+//             indexs.push(i);
+//         }
+//     }
+//     return indexs[Math.floor(Math.random() * indexs.length)];
+// }
 
 // let current_player = playerX;
 // while (!GameBoard.checkWin(current_player) && !GameBoard.checkDraw()) {
@@ -99,22 +98,18 @@ function randomIndex() {
 
 // console.log("Final board:");
 // console.log(GameBoard.getboard());
+//====================================================================================================================
 const cells = document.querySelectorAll(".cell") ; 
 const start = document.querySelector("#play") ; 
-
-cells.forEach(cell => {
-    cell.addEventListener("click", ()=>{alert(`hello from cell number ${cell.id}`) ;}) ; 
-    
-});
-
-
-
-
-start.addEventListener("click" ,()=>
+let x , o ;
+start.addEventListener("click",()=>
 {
-    const player1input = document.getElementById("p1").value ;
-    const player2input = document.getElementById("p2").value ; 
-    const x = player(player1input,"x") ; 
-    const o = player(player2input,"o");
-    console.log(x.name , x.marker , o.name , o.marker);
-})
+    x = player(document.getElementById("p1").value,"X" ); 
+    o = player(document.getElementById("p2").value,"O");  
+    cells.forEach(cell => {
+        cell.addEventListener("click", ()=>{alert(`hello from cell number ${cell.id}`) ; console.log(`Player 1 Name ${x.name} Marker : ${x.marker} ,,,,,,
+                                                                                                    Player 2 Name ${o.name} Marker : ${o.marker}`);}) ;  
+            
+    }); 
+}) ;
+
