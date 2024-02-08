@@ -1,0 +1,17 @@
+
+
+.indexes {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    /* box-sizing: border-box; */
+}
+
+.indexes .cell {
+    width: 33.33%; 
+    height: 33.33%; 
+    border: 1px solid black ;
+    box-sizing: border-box; 
+}

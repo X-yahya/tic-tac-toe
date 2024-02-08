@@ -1,6 +1,17 @@
 const player = function(name, marker) {
-    return { name, marker, pattern: [] };
-}
+    const pattern = [];
+
+    const addMove = (index) => {
+        pattern.push(index);
+    };
+
+    return { 
+        name, 
+        marker, 
+        getPattern: () => pattern,
+        addMove
+    };
+};
 
 const GameBoard = (function() {
     const boardSize = 3;
@@ -26,9 +37,7 @@ const GameBoard = (function() {
 
     const playRound = (player, index) => {
         fillCell(index, player.marker);
-        if (player.pattern) {
-            player.pattern.push(index);
-        }
+        player.addMove(index); 
     };
 
     const checkWin = (player) => {
@@ -38,7 +47,7 @@ const GameBoard = (function() {
             [0, 4, 8], [2, 4, 6]             // diag
         ];
         for (const condition of winsConditions) {
-            if (condition.every(index => player.pattern.includes(index))) {
+            if (condition.every(index => player.getPattern().includes(index))) {
                 return true;
             }
         }
@@ -61,21 +70,17 @@ const GameBoard = (function() {
 const playerX = player("playerXName", "X");
 const playerO = player("playerOName", "O");
 
-
-
-function randomIndex()
-{
-    let indexs = [] ; 
-    let board = GameBoard.getboard() ; 
-    for(let i = 0 ; i < board.length ; ++i)
-    {
-        if (board[i]===null)
-        {
-            indexs.push(i) ; 
+function randomIndex() {
+    let indexs = [];
+    let board = GameBoard.getboard();
+    for (let i = 0; i < board.length; ++i) {
+        if (board[i] === null) {
+            indexs.push(i);
         }
     }
-    return  indexs[Math.floor(Math.random()*indexs.length)] ; 
+    return indexs[Math.floor(Math.random() * indexs.length)];
 }
+
 let current_player = playerX;
 while (!GameBoard.checkWin(current_player) && !GameBoard.checkDraw()) {
     let get_index = randomIndex();
@@ -94,4 +99,3 @@ if (GameBoard.checkWin(playerX)) {
 
 console.log("Final board:");
 console.log(GameBoard.getboard());
-
