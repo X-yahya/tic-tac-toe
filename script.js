@@ -99,15 +99,15 @@ function handleClick() {
         }
         if (GameBoard.checkWin(x)) {
             console.log(`${x.name} Wins !! `);
-            resetgame(x, o);
+            // resetgame(x, o);
             xTurn = true;
         } else if (GameBoard.checkWin(o)) {
             console.log(`${o.name} Wins !!`);
-            resetgame(x, o);
+            // resetgame(x, o);
             xTurn = false;
         } else if (GameBoard.checkDraw()) {
             console.log("Draw ");
-            resetgame(x, o);
+            // resetgame(x, o);
         }
         xTurn = !xTurn;
     }
@@ -123,4 +123,8 @@ start.addEventListener("click", (event) => {
     cells.forEach(cell => {
         cell.addEventListener("click", handleClick);
     });
+    start.addEventListener("click" , ()=>
+    {
+        resetgame(x,o) ; 
+    })
 }) ; 
