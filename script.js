@@ -76,6 +76,7 @@ const cells = document.querySelectorAll(".cell");
 const start = document.querySelector("#play");
 let x, o;
 let xTurn = true; 
+let game_end = false ; 
 
 function resetgame(x, o) {
     GameBoard.resetBoard();
@@ -98,33 +99,41 @@ function handleClick() {
             this.textContent = o.marker;
         }
         if (GameBoard.checkWin(x)) {
-            console.log(`${x.name} Wins !! `);
-            // resetgame(x, o);
+            alert(`${x.name} Wins !! `);
+            game_end = true ; 
+            
             xTurn = true;
         } else if (GameBoard.checkWin(o)) {
-            console.log(`${o.name} Wins !!`);
-            // resetgame(x, o);
+            alert(`${o.name} Wins !!`);
+            game_end = true ; 
+
             xTurn = false;
         } else if (GameBoard.checkDraw()) {
             console.log("Draw ");
-            // resetgame(x, o);
+            game_end = true ; 
         }
         xTurn = !xTurn;
     }
 }
 
 
+
 start.addEventListener("click", (event) => {
     event.preventDefault();
-    start.textContent="Restart game" ; 
+    start.textContent="Restart" ; 
     x = player(document.getElementById("p1").value, "x");
     o = player(document.getElementById("p2").value, "O");
     xTurn = xTurn
     cells.forEach(cell => {
         cell.addEventListener("click", handleClick);
     });
-    start.addEventListener("click" , ()=>
+    if (game_end)
     {
         resetgame(x,o) ; 
-    })
-}) ; 
+        cells.forEach(cell => {
+            cell.addEventListener("click", handleClick);
+        });
+        game_end = false; 
+    }
+
+}); 
