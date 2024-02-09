@@ -1,6 +1,6 @@
-const player = function(name, marker) {
+const player = function(name, marker ) {
     const pattern = [];
-
+    // score = score ; 
     const addMove = (index) => {
         pattern.push(index);
     };
@@ -10,7 +10,8 @@ const player = function(name, marker) {
 
     return { 
         name, 
-        marker, 
+        marker,
+        // score ,  
         getPattern: () => pattern,
         addMove , 
         resetPattern
@@ -88,8 +89,11 @@ function resetgame(x, o) {
     o.resetPattern(); 
 }
 
+
+let scorePlayerX = 0; 
+let scorePlayerY = 0 ;
 function handleClick() {
-    if (this.textContent === "") {
+    if (this.textContent === "" && game_end === false) {
         let index = parseInt(this.id);
         if (xTurn) {
             GameBoard.playRound(x, index);
@@ -100,24 +104,29 @@ function handleClick() {
         }
         if (GameBoard.checkWin(x)) {
             alert(`${x.name} Wins !! `);
+            scorePlayerX += 1 ; 
+            xs.textContent = scorePlayerX ;
+            // console.log(x.score) ; 
             game_end = true ; 
-            
-            xTurn = true;
         } else if (GameBoard.checkWin(o)) {
             alert(`${o.name} Wins !!`);
+            scorePlayerY+=1 ; 
+            ys.textContent = scorePlayerY ;
             game_end = true ; 
+            
 
             xTurn = false;
         } else if (GameBoard.checkDraw()) {
             console.log("Draw ");
-            game_end = true ; 
+            game_end = true ;
+            
         }
         xTurn = !xTurn;
     }
 }
 
-
-
+const xs = document.getElementById("scorep1") ; 
+const ys = document.getElementById("scorep2") ; 
 start.addEventListener("click", (event) => {
     event.preventDefault();
     start.textContent="Restart" ; 
@@ -126,9 +135,12 @@ start.addEventListener("click", (event) => {
     xTurn = xTurn
     cells.forEach(cell => {
         cell.addEventListener("click", handleClick);
+        console.log(game_end);
     });
     if (game_end)
     {
+        
+
         resetgame(x,o) ; 
         cells.forEach(cell => {
             cell.addEventListener("click", handleClick);
