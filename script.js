@@ -103,13 +103,13 @@ function handleClick() {
             this.textContent = o.marker;
         }
         if (GameBoard.checkWin(x)) {
-            alert(`${x.name} Wins !! `);
+            alert(`${x.name} (X) Wins !! `);
             scorePlayerX += 1 ; 
             xs.textContent = scorePlayerX ;
             // console.log(x.score) ; 
             game_end = true ; 
         } else if (GameBoard.checkWin(o)) {
-            alert(`${o.name} Wins !!`);
+            alert(`${o.name} (O) Wins !!`);
             scorePlayerY+=1 ; 
             ys.textContent = scorePlayerY ;
             game_end = true ; 
@@ -117,7 +117,7 @@ function handleClick() {
 
             xTurn = false;
         } else if (GameBoard.checkDraw()) {
-            console.log("Draw ");
+            alert("Draw ");
             game_end = true ;
             
         }
