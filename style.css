@@ -75,3 +75,12 @@ button {
     cursor: pointer;
     height: 50px;
 }
+
+
+.pos
+{
+    position: relative;
+    top: 20px;
+    left: 44.44%;
+
+}
