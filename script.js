@@ -4,12 +4,16 @@ const player = function(name, marker) {
     const addMove = (index) => {
         pattern.push(index);
     };
+    const resetPattern = () => {
+        pattern.length = 0;
+    };
 
     return { 
         name, 
         marker, 
         getPattern: () => pattern,
-        addMove
+        addMove , 
+        resetPattern
     };
 };
 
@@ -33,7 +37,8 @@ const GameBoard = (function() {
         for (let i = 0; i < board.length; ++i) {
             board[i] = null;
         }
-    };
+    }; 
+
 
     const playRound = (player, index) => {
         fillCell(index, player.marker);
@@ -67,49 +72,55 @@ const GameBoard = (function() {
     };
 })();
 
+const cells = document.querySelectorAll(".cell");
+const start = document.querySelector("#play");
+let x, o;
+let xTurn = true; 
 
-//===================================================test func================================================================
-// function randomIndex() {
-//     let indexs = [];
-//     let board = GameBoard.getboard();
-//     for (let i = 0; i < board.length; ++i) {
-//         if (board[i] === null) {
-//             indexs.push(i);
-//         }
-//     }
-//     return indexs[Math.floor(Math.random() * indexs.length)];
-// }
-
-// let current_player = playerX;
-// while (!GameBoard.checkWin(current_player) && !GameBoard.checkDraw()) {
-//     let get_index = randomIndex();
-//     GameBoard.playRound(current_player, get_index);
-//     console.log(`Player ${current_player.name} marked cell ${get_index}`);
-//     current_player = (current_player === playerX) ? playerO : playerX;
-// }
-
-// if (GameBoard.checkWin(playerX)) {
-//     console.log("Player X wins!");
-// } else if (GameBoard.checkWin(playerO)) {
-//     console.log("Player O wins!");
-// } else {
-//     console.log("It's a draw!");
-// }
-
-// console.log("Final board:");
-// console.log(GameBoard.getboard());
-//====================================================================================================================
-const cells = document.querySelectorAll(".cell") ; 
-const start = document.querySelector("#play") ; 
-let x , o ;
-start.addEventListener("click",()=>
-{
-    x = player(document.getElementById("p1").value,"X" ); 
-    o = player(document.getElementById("p2").value,"O");  
+function resetgame(x, o) {
+    GameBoard.resetBoard();
     cells.forEach(cell => {
-        cell.addEventListener("click", ()=>{alert(`hello from cell number ${cell.id}`) ; console.log(`Player 1 Name ${x.name} Marker : ${x.marker} ,,,,,,
-                                                                                                    Player 2 Name ${o.name} Marker : ${o.marker}`);}) ;  
-            
-    }); 
-}) ;
+        cell.textContent = "";
+        cell.removeEventListener("click", handleClick);
+    });
+    x.resetPattern(); 
+    o.resetPattern(); 
+}
 
+function handleClick() {
+    if (this.textContent === "") {
+        let index = parseInt(this.id);
+        if (xTurn) {
+            GameBoard.playRound(x, index);
+            this.textContent = x.marker;
+        } else {
+            GameBoard.playRound(o, index);
+            this.textContent = o.marker;
+        }
+        if (GameBoard.checkWin(x)) {
+            console.log(`${x.name} Wins !! `);
+            resetgame(x, o);
+            xTurn = true;
+        } else if (GameBoard.checkWin(o)) {
+            console.log(`${o.name} Wins !!`);
+            resetgame(x, o);
+            xTurn = false;
+        } else if (GameBoard.checkDraw()) {
+            console.log("Draw ");
+            resetgame(x, o);
+        }
+        xTurn = !xTurn;
+    }
+}
+
+
+start.addEventListener("click", (event) => {
+    event.preventDefault();
+    start.textContent="Restart game" ; 
+    x = player(document.getElementById("p1").value, "x");
+    o = player(document.getElementById("p2").value, "O");
+    xTurn = xTurn
+    cells.forEach(cell => {
+        cell.addEventListener("click", handleClick);
+    });
+}) ; 
