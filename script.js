@@ -99,11 +99,11 @@ const gameController = (function() {
         document.getElementById("scorep2").textContent = scorePlayerO;
     }
 
-    function resetScores() {
-        scorePlayerX = 0;
-        scorePlayerO = 0;
-        displayScores();
-    }
+    // function resetScores() {
+    //     scorePlayerX = 0;
+    //     scorePlayerO = 0;
+    //     displayScores();
+    // }
 
     function resetPlayers() {
         x.resetPattern();
