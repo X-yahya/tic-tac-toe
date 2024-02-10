@@ -1,9 +1,10 @@
-const player = function(name, marker ) {
+const player = function(name, marker) {
     const pattern = [];
-    // score = score ; 
+
     const addMove = (index) => {
         pattern.push(index);
     };
+
     const resetPattern = () => {
         pattern.length = 0;
     };
@@ -11,9 +12,8 @@ const player = function(name, marker ) {
     return { 
         name, 
         marker,
-        // score ,  
         getPattern: () => pattern,
-        addMove , 
+        addMove, 
         resetPattern
     };
 };
@@ -39,7 +39,6 @@ const GameBoard = (function() {
             board[i] = null;
         }
     }; 
-
 
     const playRound = (player, index) => {
         fillCell(index, player.marker);
@@ -73,79 +72,112 @@ const GameBoard = (function() {
     };
 })();
 
-const cells = document.querySelectorAll(".cell");
-const start = document.querySelector("#play");
-let x, o;
-let xTurn = true; 
-let game_end = false ; 
+const gameController = (function() {
+    let x, o;
+    let xTurn = true;
+    let gameEnd = false;
 
-function resetgame(x, o) {
-    GameBoard.resetBoard();
-    cells.forEach(cell => {
-        cell.textContent = "";
-        cell.removeEventListener("click", handleClick);
-    });
-    x.resetPattern(); 
-    o.resetPattern(); 
-}
-
-
-let scorePlayerX = 0; 
-let scorePlayerY = 0 ;
-function handleClick() {
-    if (this.textContent === "" && game_end === false) {
-        let index = parseInt(this.id);
-        if (xTurn) {
-            GameBoard.playRound(x, index);
-            this.textContent = x.marker;
-        } else {
-            GameBoard.playRound(o, index);
-            this.textContent = o.marker;
-        }
-        if (GameBoard.checkWin(x)) {
-            alert(`${x.name} (X) Wins !! `);
-            scorePlayerX += 1 ; 
-            xs.textContent = scorePlayerX ;
-            // console.log(x.score) ; 
-            game_end = true ; 
-        } else if (GameBoard.checkWin(o)) {
-            alert(`${o.name} (O) Wins !!`);
-            scorePlayerY+=1 ; 
-            ys.textContent = scorePlayerY ;
-            game_end = true ; 
-            
-
-            xTurn = false;
-        } else if (GameBoard.checkDraw()) {
-            alert("Draw ");
-            game_end = true ;
-            
-        }
-        xTurn = !xTurn;
+    function initializeGame() {
+        GameBoard.resetBoard();
+        x = player(document.getElementById("p1").value, "X");
+        o = player(document.getElementById("p2").value, "O");
+        displayScores();
+        addCellEventListeners();
+        gameEnd = false;
     }
-}
 
-const xs = document.getElementById("scorep1") ; 
-const ys = document.getElementById("scorep2") ; 
-start.addEventListener("click", (event) => {
-    event.preventDefault();
-    start.textContent="Restart" ; 
-    x = player(document.getElementById("p1").value, "x");
-    o = player(document.getElementById("p2").value, "O");
-    xTurn = xTurn
-    cells.forEach(cell => {
-        cell.addEventListener("click", handleClick);
-        console.log(game_end);
-    });
-    if (game_end)
-    {
-        
+    function resetGame() {
+        GameBoard.resetBoard();
+        resetPlayers();
+        resetCellContent();
+        addCellEventListeners();
+        gameEnd = false;
+    }
 
-        resetgame(x,o) ; 
+    function displayScores() {
+        document.getElementById("scorep1").textContent = scorePlayerX;
+        document.getElementById("scorep2").textContent = scorePlayerO;
+    }
+
+    function resetScores() {
+        scorePlayerX = 0;
+        scorePlayerO = 0;
+        displayScores();
+    }
+
+    function resetPlayers() {
+        x.resetPattern();
+        o.resetPattern();
+    }
+
+    function resetCellContent() {
+        cells.forEach(cell => {
+            cell.textContent = "";
+        });
+    }
+
+    function addCellEventListeners() {
         cells.forEach(cell => {
             cell.addEventListener("click", handleClick);
         });
-        game_end = false; 
     }
 
-}); 
+    function removeCellEventListeners() {
+        cells.forEach(cell => {
+            cell.removeEventListener("click", handleClick);
+        });
+    }
+
+    function handleClick() {
+        if (this.textContent === "" && !gameEnd) {
+            let index = parseInt(this.id);
+            let currentPlayer = xTurn ? x : o;
+            GameBoard.playRound(currentPlayer, index);
+            this.textContent = currentPlayer.marker;
+            if (GameBoard.checkWin(currentPlayer)) {
+                handleWin(currentPlayer);
+            } else if (GameBoard.checkDraw()) {
+                handleDraw();
+            } else {
+                xTurn = !xTurn;
+            }
+        }
+    }
+
+    function handleWin(player) {
+        alert(`${player.name} (${player.marker}) Wins!!`);
+        if (player === x) {
+            scorePlayerX+=1;
+        } else {
+            scorePlayerO+=1;
+        }
+        displayScores();
+        gameEnd = true;
+        removeCellEventListeners();
+    }
+
+    function handleDraw() {
+        alert("Draw!");
+        gameEnd = true;
+        removeCellEventListeners();
+    }
+
+    return {
+        initializeGame,
+        resetGame
+    };
+})();
+
+const cells = document.querySelectorAll(".cell");
+const startButton = document.querySelector("#play");
+let scorePlayerX = 0;
+let scorePlayerO = 0;
+
+startButton.addEventListener("click", (event) => {
+    gameController.initializeGame();
+    event.preventDefault();
+    startButton.textContent = "Restart";
+    gameController.resetGame();
+});
+
+
