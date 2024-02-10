@@ -19,8 +19,8 @@ const player = function(name, marker) {
 };
 
 const GameBoard = (function() {
-    const boardSize = 3;
-    const board = new Array(boardSize ** 2).fill(null);
+    const boardSize = 3; // 
+    const board = new Array(boardSize ** 2).fill(null); // tic tac toe is known to be a 3*3 grid if you want to try something else u can play with this valeu
 
     const getboard = () => board;
     
